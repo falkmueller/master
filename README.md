@@ -9,5 +9,5 @@ Masterarbeit
 ---
 - [Masterarbeit](paper.pdf)
 - [Presentation](presentation.pdf)
-- [Simple ant demo](demo_ants.pdf)
+- [Simple ant demo](demo_ants.html)
 - [Quellcode](code.zip)
