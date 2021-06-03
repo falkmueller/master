@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Ant Symulation</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+
+    <style type="text/css">
+
+:root {
+  --main-unit: 1vw;
+}
+
+@media only screen and (min-width: 1170px) {
+    :root {
+    --main-unit: calc(1170px / 90);
+    }
+}
+
+.container {
+    margin-top: 1rem;
+}
+
+.routes {
+    position: relative;
+    width: calc(100 * var(--main-unit));
+}
+
+        .routes:before {
+            content: "";
+            position: absolute;
+            width: calc(60 * var(--main-unit));
+            height: calc(30 * var(--main-unit));
+            border: 1px solid #000;
+            border-bottom: 0;
+            border-right: 0;
+            transform: rotate(26.5deg);
+            margin-top: calc(20 * var(--main-unit));
+            margin-left: calc(10 * var(--main-unit));
+
+        }
+
+        .routes:after {
+            margin-top: calc(20 * var(--main-unit));
+            margin-left: calc(10 * var(--main-unit));
+            content: "";
+            position: absolute;
+            width: calc(60 * var(--main-unit));
+            height: calc(30 * var(--main-unit));
+            border: 1px solid #000;
+            border-top: 0;
+            border-right: 0;
+            transform: rotate(-26.5deg);
+            
+        }
+
+        #c, #f, #a, #b, #ca, #cb, #fa,#fb, #bc, #bf, #i, #d1, #d2, #d3, #d4, #pa, #pb, #pc, #pf {
+            position: absolute;
+        }
+
+        #c, #f, #a, #bc, #bf, #i {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        #pf, #pc, #pa, #pb {
+            height: 3rem;
+            width: 3rem;
+            border-radius: 1.5rem;
+            background-color: #eee;
+            font-weight: bold;
+            text-align: center;
+            font-size: 2rem;
+            z-index: 5;
+        }
+
+        #pa, #pb { 
+            background-color: #fff;
+        }
+
+        #pa {
+            top: calc(33 * var(--main-unit));
+            left: calc(5 * var(--main-unit));
+        }
+
+        #pb {
+            top: calc(33 * var(--main-unit));
+            left: calc(72 * var(--main-unit));
+        }
+
+        #pc {
+            top: calc(7 * var(--main-unit));
+            left: calc(18 * var(--main-unit));
+        }
+
+        #pf {
+            top: calc(60 * var(--main-unit));
+            left: calc(18 * var(--main-unit));
+        }
+
+        #i {
+            top: calc(32 * var(--main-unit));
+            left: calc(25 * var(--main-unit));
+        }
+
+        #c {
+            top: calc(3 * var(--main-unit));
+            left: calc(19.5 * var(--main-unit));
+        }
+
+        #f {
+            top: calc(65 * var(--main-unit));
+            left: calc(19.5 * var(--main-unit));
+        }
+
+        #a {
+            top: calc(33.5 * var(--main-unit));
+        }
+
+        #bc {
+            top: calc(32 * var(--main-unit));
+            left: calc(77.5 * var(--main-unit));
+        }
+
+        #bf {
+            top: calc(35 * var(--main-unit));
+            left: calc(77.5 * var(--main-unit));
+        }
+
+        #ca {
+            top: calc(20 * var(--main-unit));
+            left: calc(6.5 * var(--main-unit));
+            transform: rotate(-62.5deg);
+        }
+
+        #cb {
+            top: calc(16 * var(--main-unit));
+            left: calc(45 * var(--main-unit));
+            transform: rotate(26.5deg);
+        }
+
+        #fa {
+            top: calc(50 * var(--main-unit));
+            left: calc(8 * var(--main-unit));
+            transform: rotate(62.5deg);
+        }
+
+        #fb {
+            top: calc(50 * var(--main-unit));
+            left: calc(45 * var(--main-unit));
+            transform: rotate(-26.5deg);
+        }
+
+        #d1 {
+            top: calc(20 * var(--main-unit));
+            left: calc(13 * var(--main-unit));
+            transform: rotate(-62.5deg);
+        }
+
+        #d2 {
+            top: calc(45 * var(--main-unit));
+            left: calc(11 * var(--main-unit));
+            transform: rotate(62.5deg);
+        }
+
+        #d3 {
+            top: calc(20 * var(--main-unit));
+            left: calc(40 * var(--main-unit));
+            transform: rotate(26.5deg);
+        }
+
+        #d4 {
+            top: calc(45 * var(--main-unit));
+            left: calc(40 * var(--main-unit));
+            transform: rotate(-26.5deg);
+        }
+
+        #p_best, #p_worst, #p_best_f, #p_worst_f {
+            position: absolute;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        #p_best {
+            transform: rotate(-62.5deg);
+            top: calc(15 * var(--main-unit));
+        }
+
+        #p_worst {
+            top: calc(10 * var(--main-unit));
+            left: calc(45 * var(--main-unit));
+            transform: rotate(26.5deg);
+        }
+
+        #p_best_f {
+            transform: rotate(62.5deg);
+            top: calc(50 * var(--main-unit));
+        }
+
+        #p_worst_f {
+            top: calc(53 * var(--main-unit));
+            left: calc(45 * var(--main-unit));
+            transform: rotate(-26.5deg);
+        }
+
+
+        .form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    width: 200px;
+}
+
+
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <div class="container">
+    
+        <form class="form-inline">
+            <button type="button" id="btnRun" class="btn btn-default">run</button>
+            <button type="button" id="btnReset" class="btn btn-default">reset</button>
+
+            <div class="form-group">
+                <div class="input-group">
+                <div class="input-group-addon">Ants</div>
+                <input type="number" id="inpAnts" value="300" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                <div class="input-group-addon">evaporation</div>
+                <input type="number" id="inpVaporisation" value="0" class="form-control">
+                <div class="input-group-addon">%</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                <div class="input-group-addon">Alpha</div>
+                <input type="number" id="inpAlpha" value="2" class="form-control">
+                </div>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                <input type="checkbox" id="cbUpdateByQuality"> Update by quality
+                </label>
+            </div>
+        </form>
+        
+        <div class="routes">
+            <div id="c">0</div>
+            <div id="f">0</div>
+            <div id="bc">0</div>
+            <div id="bf">0</div>
+
+            <div id="ca">0</div>
+            <div id="cb">0</div>
+            <div id="fa">0</div>
+            <div id="fb">0</div>
+            
+            <div id="i">0</div>
+
+            <div id="d1">d = 0.5</div>
+            <div id="d2">d = 0.5</div>
+            <div id="d3">d = 1</div>
+            <div id="d4">d = 1</div>
+
+            <div id="pa">A</div>
+            <div id="pb">B</div>
+            <div id="pc">C</div>
+            <div id="pf">F</div>
+
+            <div id="p_best">50%</div>
+            <div id="p_worst">50%</div>
+            <div id="p_best_f">50%</div>
+            <div id="p_worst_f">50%</div>
+            
+        </div>
+    </div>
+   
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+    <script>
+
+        var countAnt = () => {
+            return parseInt($("#inpAnts").val());
+        }
+
+        var alpha = () => {
+            return parseInt($("#inpAlpha").val());
+        }
+
+        var vaporisation = () => {
+            var percent = parseInt($("#inpVaporisation").val());
+            if(percent > 100){
+                $("#inpVaporisation").val("100");
+                percent = 100;
+            }
+            else if(percent < 0){
+                $("#inpVaporisation").val("0");
+                percent = 0;
+            }
+            return percent/100;
+        }
+
+        var updateByQuality = () => {
+            return $("#cbUpdateByQuality").is(":checked");
+        };
+
+        var iteration = 0;
+        var pheromons = {}
+        var p_best = 0.5;
+        var p_best_f = 0.5;
+
+        var antCount = {}
+
+        var updateView = () => {
+            $("#ca").text("τ = " + pheromons.cf);
+            $("#cb").text("τ = " + pheromons.cb);
+            $("#fa").text("τ = " + pheromons.cf);
+            $("#fb").text("τ = " + pheromons.fb);
+
+            $("#c").text(antCount.c + " Ants");
+            $("#bc").html("&#9660; " + antCount.bc + " Ants");
+            $("#bf").html("&#9650; " + antCount.bf + " Ants");
+            $("#f").text(antCount.f + " Ants");
+
+            $("#i").text("t = " + iteration);
+
+            $("#p_best").text(parseInt(p_best * 100) + "%");
+            $("#p_worst").text((100 - parseInt(p_best * 100)) + "%");
+            $("#p_best_f").text(parseInt(p_best_f * 100) + "%");
+            $("#p_worst_f").text((100 - parseInt(p_best_f * 100)) + "%");
+
+            if(iteration > 0){
+                $("#inpVaporisation").prop( "disabled", true );
+                $("#inpAnts").prop( "disabled", true );
+                $("#cbUpdateByQuality").prop( "disabled", true );
+                $("#inpAlpha").prop( "disabled", true );
+            } else {
+                $("#inpVaporisation").prop( "disabled", false );
+                $("#inpAnts").prop( "disabled", false );
+                $("#cbUpdateByQuality").prop( "disabled", false );
+                $("#inpAlpha").prop( "disabled", false );
+            }
+        }
+
+        var run = () => {
+            if(iteration == 0){ reset();}
+
+            iteration++;
+            var k = 0;
+            var a = alpha();
+            p_best = pheromons.cf + pheromons.cb == 0 ? 0.5 : (Math.pow(pheromons.cf + k, a) / (Math.pow(pheromons.cf + k, a) + Math.pow(pheromons.cb + k, a)));
+            var c_to_f = Math.round(antCount.c * p_best);
+            var c_to_b = antCount.c - c_to_f;
+            
+
+            p_best_f = pheromons.cf + pheromons.fb == 0 ? 0.5 : Math.pow(pheromons.cf + k, a) / (Math.pow(pheromons.cf + k, a) + Math.pow(pheromons.fb + k, a));
+            var f_to_c = Math.round(antCount.f * p_best_f);
+            var f_to_b = antCount.f - f_to_c;
+
+            pheromons.cf = parseInt(((1 - vaporisation()) * pheromons.cf) +  ((f_to_c + c_to_f) * 1)); 
+            pheromons.cb = parseInt(((1 - vaporisation()) * pheromons.cb) + ((c_to_b + antCount.bf) * (updateByQuality() ? 0.5 : 1))); 
+            pheromons.fb = parseInt(((1 - vaporisation()) * pheromons.fb) + ((f_to_b + antCount.bc) * (updateByQuality() ? 0.5 : 1))); 
+
+           
+
+            antCount.c = antCount.bf + f_to_c;
+            antCount.f = antCount.bc + c_to_f;
+            antCount.bc = c_to_b;
+            antCount.bf = f_to_b;
+
+            //antCount.c += countAnt();
+
+            p_best = pheromons.cf + pheromons.cb == 0 ? 0.5 : (Math.pow(pheromons.cf + k, a) / (Math.pow(pheromons.cf + k, a) + Math.pow(pheromons.cb + k, a)));
+            p_best_f = pheromons.cf + pheromons.fb == 0 ? 0.5 : Math.pow(pheromons.cf + k, a) / (Math.pow(pheromons.cf + k, a) + Math.pow(pheromons.fb + k, a));
+            updateView();
+        }
+
+        var reset = () => {
+            pheromons = {
+                cf: 0,
+                cb: 0,
+                fb: 0
+            }
+
+            antCount = {
+                c: countAnt(),
+                bc: 0,
+                bf: 0,
+                f: 0
+            }
+            
+            iteration = 0;
+            p_best = 0.5;
+            p_best_f = 0.5;
+
+            updateView();
+        }
+
+
+
+        $("#btnRun").click(() => run());
+        $("#btnReset").click(() => reset());
+        reset();
+
+    </script>
+
+  </body>
+</html>
