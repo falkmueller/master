@@ -9,5 +9,5 @@ Masterarbeit
 ---
 - [Masterarbeit](paper.pdf)
 - [Presentation](presentation.pdf)
-- [Simple ant demo](demo_ants.html)
+- Simple ant demo [code](demo_ants.html)/[live](https://code.falk-m.de/demo_ants.html)
 - [Quellcode](code.zip)
